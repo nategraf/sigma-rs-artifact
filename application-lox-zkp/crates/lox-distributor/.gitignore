@@ -1,0 +1,4 @@
+/target
+/lox_db
+/status
+Cargo.lock

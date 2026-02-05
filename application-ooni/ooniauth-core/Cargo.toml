@@ -1,0 +1,41 @@
+[package]
+name = "ooniauth-core"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+cmz = { path = "../../cmz" }
+curve25519-dalek = { version = "4", features = ["digest", "group", "rand_core", "serde"] }
+ff = "0.13.1"
+group = "0.13.0"
+rand = {workspace = true}
+serde = {workspace = true}
+serde_with = "3.12.0"
+spongefish = {path = "../../spongefish/spongefish",  features = ["curve25519-dalek"] }
+bincode = {workspace = true}
+serde_bytes = "0.11.17"
+sha2 = "0.10.9"
+chrono = "0.4.41"
+time = "0.3.41"
+subtle = "2.6.1"
+thiserror = {workspace = true}
+syn = "2.0.103"
+hex = "0.4"
+tracing = "0.1"
+
+[dev-dependencies]
+criterion = { version = "0.5"}
+tracing-subscriber = { version = "0.3", features = ["env-filter", "registry"] }
+tracing-forest = "0.1"
+
+[[example]]
+name = "basic_usage"
+test = true
+
+[[bench]]
+name = "bench_server"
+harness = false
+
+[[bench]]
+name = "bench_client"
+harness = false

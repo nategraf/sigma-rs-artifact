@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# cd into the directory containing this script (from the bash faq 028)
+if [[ $BASH_SOURCE = */* ]]; then
+  cd -- "${BASH_SOURCE%/*}/" || exit
+fi
+
+cd ..
+docker build $* -t ${SIGMA_RS_DOCKER_PREFIX}sigma-rs -f Scripts/Dockerfile .

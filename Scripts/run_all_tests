@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# cd into the directory containing this script (from the bash faq 028)
+if [[ $BASH_SOURCE = */* ]]; then
+  cd -- "${BASH_SOURCE%/*}/" || exit
+fi
+
+# All of the crates and workspaces
+CRATES="spongefish spongefish/spongefish sigma-proofs
+    sigma-compiler sigma-compiler/sigma-compiler-derive
+    sigma-compiler/sigma-compiler-core cmz cmz/cmz-derive cmz/cmz-core
+    application-ooni"
+
+cd ..
+for c in $CRATES; do
+    (cd $c && cargo test --release) || exit 1
+done
+
+# The Lox tests need extra feature flags
+(cd application-lox/crates/lox-extensions && cargo test --release --features=bridgeauth,test) || exit 1
+(cd application-lox-zkp/crates/lox-library && cargo test --release --features=bridgeauth) || exit 1

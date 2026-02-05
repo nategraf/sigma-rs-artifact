@@ -1,0 +1,20 @@
+[package]
+name = "sigma-compiler-derive"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Derive macros for the sigma-compiler crate"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+sigma-compiler-core = { path = "../sigma-compiler-core" }
+syn = "2.0"
+
+[features]
+# Dump (to stdout or to a string) the value of the instance on both the
+# prover's and verifier's side.  They should match.
+# Note: enable this feature (if you want it) in the sigma-compiler
+# crate, not here.
+dump = [ "sigma-compiler-core/dump" ]

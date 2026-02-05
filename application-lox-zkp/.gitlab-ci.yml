@@ -1,0 +1,84 @@
+image: "rust:latest"
+
+stages:
+  - build
+  - test
+  - audit
+
+variables:
+  # move cargo data into the project directory so it can be cached
+  CARGO_HOME: ${CI_PROJECT_DIR}/.cargo
+  # treat compiler warnings as errors (in clippy, when running tests, etc.)
+  RUSTFLAGS: -Dwarnings
+
+default:
+  # cancel the job if a newer pipeline starts for the same MR or branch
+  interruptible: true
+  cache:
+    # use the git branch or tag as cache key, so the cache will be
+    # shared among CI runs for the same branch or tag
+    key: ${CI_COMMIT_REF_SLUG}
+    # we cache .cargo/ and target/, which effectively enables
+    # incremental builds across different executions of the CI
+    # for the same branch or the same merge request
+    paths:
+      - .cargo
+      - target
+
+cargo:fmt:
+  stage: build
+  script:
+    - rustc --version && cargo --version  # Print version info for debugging
+    - rustup component add rustfmt
+    - cargo fmt --check
+
+cargo:clippy:
+  stage: build
+  script:
+    - rustup component add clippy
+    - cargo clippy --all-features --workspace -- -D warnings
+
+test:lox-unit:
+  stage: test
+  # this job is only run if clippy and fmt pass
+  script:
+    - cargo test --workspace --verbose
+  artifacts:
+    when: always
+
+cargo:audit:
+  stage: audit
+  # this job only runs in the main branch
+  rules:
+  - if: $CI_COMMIT_BRANCH == "main"
+  # This can start to fail even when our code doesn't change.
+  # Usually the new advisory is not a huge concern.
+  # Run it last, separately, so if we think we may want to merge anyway,
+  # all the other tests will have been run.
+  script:
+    - ./maint/rust-maint-common/via-cargo-install-in-ci cargo-audit
+    - cargo audit -D warnings
+  cache:
+    paths:
+      - cache
+
+cargo:vet:
+  stage: audit
+  # This will likely fail but will give us an idea of
+  # changes that might cause issues for the browser team
+  # Usually the new advisory is not a huge concern.
+  # Run it last, separately, so if we think we may want to merge anyway,
+  # all the other tests will have been run.
+  # this job only runs in the main branch
+  rules:
+  - if: $CI_COMMIT_BRANCH == "main"
+  script:
+    - ./maint/rust-maint-common/via-cargo-install-in-ci cargo-vet
+    # Entities that have audits to import
+    - cargo vet init
+    - cargo vet import mozilla
+    - cargo vet import isrg
+    - cargo vet check
+  cache:
+    paths:
+      - cache

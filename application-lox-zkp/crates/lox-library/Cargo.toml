@@ -1,0 +1,40 @@
+[package]
+name = "lox-library"
+version = "0.3.0"
+authors = ["Ian Goldberg <iang@uwaterloo.ca>, Lindsey Tulloch <onyinyang@torporject.org>"]
+edition = "2018"
+rust-version = "1.65.0"
+license = "MIT"
+homepage = "https://gitlab.torproject.org/tpo/anti-censorship/lox/-/wikis/home"
+description = "Main Lox library with protocols and functions that make up Lox"
+keywords = ["tor", "lox", "bridges","anti-censorship", "anonymous-cred"]
+categories = ["cryptography"]
+repository = "https://gitlab.torproject.org/tpo/anti-censorship/lox/-/tree/main/crates/lox-library"
+readme = "README.md"
+
+
+[dependencies]
+array-bytes = "8.0.0"
+curve25519-dalek = { version = "4.1.2", default-features = false, features = ["serde", "rand_core", "digest"] }
+ed25519-dalek = { version = "2.1.1", default-features = false, features = ["serde", "rand_core"] }
+bincode = "1.3.3"
+chrono = { version = "0.4.38", default-features = false, features = ["now"], optional = true }
+rand = { version = "0.8", features = ["std_rng"]}
+serde = "1.0.197"
+serde_with = {version = "3.0.0", features = ["json"]}
+sha2 = "0.10"
+lazy_static = "1.4.0"
+aes-gcm = { version = "0.10", features = ["aes"] }
+base64 = "0.21.0"
+time = "0.3.36"
+subtle = "2.5"
+thiserror = "1"
+lox-zkp = "0.8.4"
+web-time = "1.1.0"
+
+[features]
+fast = []
+bridgeauth = ["chrono"]
+blockage-detection = []
+dump = []
+default = ["dump"]

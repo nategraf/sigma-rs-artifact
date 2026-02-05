@@ -1,0 +1,10 @@
+[workspace]
+members = ["ooniauth-core", "ooniauth-ffi", "ooniauth-py"]
+resolver = "2"
+
+[workspace.dependencies]
+rand = "0.8.5"
+bincode = "1"
+cmz = { git = "https://github.com/sigma-rs/cmz" }
+serde = "1.0.219"
+thiserror = "2.0.12"

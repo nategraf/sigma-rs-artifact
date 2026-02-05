@@ -1,0 +1,20 @@
+[package]
+name = "sigma-compiler-core"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Core functionality for the macros in the sigma-compiler crate"
+
+[dependencies]
+syn = { version = "2.0", features = ["extra-traits", "visit", "visit-mut", "full"] }
+quote = "1.0"
+proc-macro2 = "1.0"
+clap = { version = "4.5", features = ["derive"] }
+prettyplease = "0.2"
+
+[features]
+# Dump (to stdout or to a string) the value of the instance on both the
+# prover's and verifier's side.  They should match.
+# Note: enable this feature (if you want it) in the sigma-compiler
+# crate, not here.
+dump = []

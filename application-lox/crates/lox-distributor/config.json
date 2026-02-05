@@ -1,0 +1,25 @@
+{
+    "db": {
+    "db_path": "lox_db"
+
+    },
+    "lox_authority_port": 8001,
+    "troll_patrol_port": 8002,
+    "metrics_port": 5222,
+    "bridge_config": {
+        "watched_blockages": [
+            "RU"
+        ],
+        "percent_spares": 25
+    },
+    "rtype": {
+        "endpoint": "http://127.0.0.1:7100/resources",
+        "name": "https",
+        "token": "HttpsApiTokenPlaceholder",
+        "types": [
+            "obfs4",
+            "snowflake"
+        ],
+        "request_interval": 600
+    }
+}

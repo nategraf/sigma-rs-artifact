@@ -1,0 +1,35 @@
+[package]
+name = "lox-wasm"
+authors = ["Cecylia Bocovich <cohosh@torproject.org>, Lindsey Tulloch <onyinyang@torproject.org"]
+version = "0.1.0"
+edition = "2021"
+description = "WASM bindings for lox"
+license = "MIT"
+homepage = "https://gitlab.torproject.org/tpo/anti-censorship/lox/-/wikis/home"
+keywords = ["tor", "lox", "bridges","anti-censorship", "wasm"]
+categories = ["wasm", "web-programming::http-client","external-ffi-bindings"]
+repository = "https://gitlab.torproject.org/tpo/anti-censorship/lox/-/tree/main/crates/lox-wasm"
+readme = "README.md"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+getrandom = { version = "0.2", features = ["js"] }
+#getrandom = { version = "0.3.0", features = ["wasm_js"] }
+julianday = "1.2.0"
+lazy_static = "1.4.0"
+cmz = { path = "../../../cmz", features = ["dump"] }
+lox-extensions = { path = "../lox-extensions", version = "0.1.0"}
+lox_utils = { path = "../lox-utils", version = "0.3.0" }
+wasm-bindgen = "0.2.92"
+time = "0.3.36"
+serde_json = "1.0.113"
+
+console_error_panic_hook = "0.1.7"
+js-sys = "0.3.69"
+rand = {version = "0.8.5", features = ["std_rng"] }
+
+[dependencies.chrono]
+version = "0.4.38"
+features = ["serde", "wasmbind"]
